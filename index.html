@@ -1,0 +1,1888 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>CSS Houdini, More than magic</title>
+
+    <meta name="description" content="Slides Web à Québec 2019 - CSS Houdini">
+
+    <link rel="icon" href="https://iamvdo.me/images/favicon.png"/>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/iamvdo.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal iamvdo language-css">
+      <div class="slides">
+
+        <section class="Showcase">
+          <h1>CSS Houdini
+            <span class="h2">More than magic!</span>
+          </h1>
+          <p class="u-aligncenter u-small u-margin">
+            Vincent De Oliveira &middot; <a href="http://twitter.com/iamvdo">@iamvdo</a>
+          </p>
+        </section>
+
+        <section class="Part">
+          <p class="Title">Hello, it’s <a href="http://twitter.com/iamvdo">@iamvdo</a></p>
+        </section>
+
+        <section>
+          <a class="image" href="https://extensiblewebmanifesto.org"><img src="imgs/extensiblewebmanifesto.png" alt="Screenshot of extensiblewebmanifesto.org"></a>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">For CSS ?</p>
+        </section>
+
+        <section>
+          <p class="Title">Build CSS Polyfills</p>
+          <p class="Subtitle">Today, it’s <strike>complicated</strike> impossible to <em>polyfill</em> CSS, even with JS.</p>
+          <p class="Small"><a href="https://philipwalton.com/articles/the-dark-side-of-polyfilling-css/">https://philipwalton.com/articles/the-dark-side-of-polyfilling-css/</a></p>
+        </section>
+
+        <section>
+          <p class="Title">Build its own graphical effects</p>
+        </section>
+
+        <section>
+          <p class="Title">Build its own langage addons</p>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Subtitle u-mt-neg">in a nutshell</p>
+          <p class="Title">Innovate</p>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">Welcome Houdini!</p>
+        </section>
+
+        <section>
+          <h2>Browser rendering*</h2>
+          <svg width="100%" viewBox="0 0 480 300">
+            <defs>
+              <rect id="rect" width="80" height="50"/>
+              <g id="js" transform="translate(72 8)">
+                <circle class="circle" r="7" />
+                <text class="circle-content block-text block-text--small">JS</text>
+              </g>
+              <g id="chain" transform="translate(72 8) scale(.1) translate(-50 -50)">
+                <circle class="circle" cx="50" cy="50" r="70"/>
+                <path class="circle-content" d="M28.6,71.4c2,2,5.1,2,7.1,0l35.8-35.8c2-2,2-5.1,0-7.1c-2-2-5.1-2-7.1,0L28.6,64.4C26.6,66.3,26.6,69.5,28.6,71.4z"/>
+                <path class="circle-content" d="M45.7,64.2c0.2,2.9-0.8,5.9-3,8.1L31.1,84c-4.1,4.1-10.7,4.1-14.8,0l-0.2-0.2C12,79.7,12,73,16.1,68.9l11.6-11.6c2.2-2.2,5.2-3.2,8.1-3l8-8c-7.6-3.6-17-2.3-23.3,4L9,61.9c-8,8-8,21,0,28.9L9.2,91c8,8,21,8,28.9,0l11.6-11.6c6.3-6.3,7.6-15.7,4-23.3L45.7,64.2z"/>
+                <path class="circle-content" d="M91.1,9.2L90.8,9c-8-8-21-8-28.9,0L50.3,20.6c-6.3,6.3-7.6,15.7-4,23.3l8-8c-0.2-2.9,0.8-5.9,3-8.1L69,16c4.1-4.1,10.7-4.1,14.8,0l0.2,0.2c4.1,4.1,4.1,10.7,0,14.8L72.4,42.6c-2.2,2.2-5.2,3.2-8.1,3l-8,8c7.6,3.6,17,2.3,23.3-4L91,38.1C99,30.1,99,17.2,91.1,9.2z"/>
+              </g>
+              <g id="arrow">
+                <line class="lines" x1="80" y1="25" x2="102" y2="25"/>
+                <polygon class="lines" points="102,30 110,25 102,20"/>
+              </g>
+              <g id="arrow-reverse">
+                <line class="lines" x1="0" y1="25" x2="-22" y2="25"/>
+                <polygon class="lines" points="-22,30 -30,25 -22,20"/>
+              </g>
+            </defs>
+            <style type="text/css">
+              .block,
+              .lines {
+                stroke: white;
+                fill: transparent;
+                stroke-miterlimit: 10;
+              }
+              .block--fill {
+                fill: #fff;
+              }
+              .block--yes {
+                fill: #BBEA78;
+              }
+              .block--no {
+                fill: #ED7782;
+              }
+              .block-text {
+                font-family: Myriad Pro, sans-serif;
+                font-size: 13px;
+                dominant-baseline: central;
+                text-anchor: middle;
+                transform: translate(40px, 25px);
+              }
+              .block-text--white {
+                fill: white;
+              }
+              .block-text--small {
+                font-size: 9px;
+                transform: none;
+              }
+              .on {
+                opacity: 1
+              }
+              .off {
+                opacity: 0
+              }
+              .circle {
+                opacity: 0.5;
+              }
+              .circle-content {
+                fill: white;
+              }
+            </style>
+            <g id="HTML-CSS" transform="translate(25 70)">
+              <use xlink:href="#rect" class="block block--fill" />
+              <text class="block-text">HTML / CSS</text>
+              <use xlink:href="#arrow"/>
+            </g>
+            <g id="Parsing" transform="translate(135 70)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--no fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="2"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">Parsing</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">Parsing</text>
+              <use xlink:href="#chain" class="fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="2"/>
+              <g class="lines">
+                <line x1="80" y1="25" x2="90" y2="25"/>
+                <line x1="90" y1="-17.5" x2="90" y2="67.5"/>
+                <line x1="90" y1="-17.5" x2="102" y2="-17.5"/>
+                <polygon points="102,-22.5 110,-17.5 102,-12.5"/>
+                <line x1="90" y1="67.5" x2="102" y2="67.5"/>
+                <polygon points="102,62.5 110,67.5 102,72.5"/>
+              </g>
+            </g>
+            <g id="DOM" transform="translate(245 35)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="1"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">DOM</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">DOM</text>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="1"/>
+            </g>
+            <g id="CSSOM" transform="translate(245 105)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="1"/>
+              <polyline class="block block--no fragment fade-in-then-out" data-fragment-index="1" points="0,0 0,50 80,50"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">CSSOM</text>
+              <text class="block-text fragment fade-in-then-out" data-fragment-index="1">CSSOM</text>
+              <text class="block-text fragment fade-in" data-fragment-index="2">Typed OM</text>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="1"/>
+            </g>
+            <g id="Render_Tree" transform="translate(355 70)">
+              <g class="lines">
+                <line x1="-30" y1="-17.5" x2="-20" y2="-17.5"/>
+                <line x1="-30" y1="67.5" x2="-20" y2="67.5"/>
+                <line x1="-20" y1="-17.5" x2="-20" y2="67.5"/>
+                <line x1="-20" y1="25" x2="-8" y2="25"/>
+                <polygon points="-8,20 0,25 -8,30"/>
+              </g>
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--no fragment fade-in" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="2"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">Render Tree</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">Render Tree</text>
+              <use xlink:href="#chain" class="fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="2"/>
+              <g class="lines">
+                <line x1="80" y1="25" x2="100" y2="25"/>
+                <line x1="100" y1="25" x2="100" y2="155"/>
+                <line x1="100" y1="155" x2="88" y2="155"/>
+                <polygon points="88,150 80,155 88,160"/>
+              </g>
+            </g>
+            <g id="Layout" transform="translate(355 200)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--no fragment fade-in" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="2"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">Layout</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">Layout</text>
+              <use xlink:href="#chain" class="fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="2"/>
+              <use xlink:href="#arrow-reverse"/>
+            </g>
+            <g id="Paint" transform="translate(245 200)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--no fragment fade-in" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="2"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">Paint</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">Paint</text>
+              <use xlink:href="#chain" class="fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="2"/>
+              <use xlink:href="#arrow-reverse"/>
+            </g>
+            <g id="Composite" transform="translate(135 200)">
+              <use xlink:href="#rect" class="block fragment fade-out" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--no fragment fade-in" data-fragment-index="1"/>
+              <use xlink:href="#rect" class="block block--yes fragment fade-in" data-fragment-index="2"/>
+              <text class="block-text block-text--white fragment fade-out" data-fragment-index="1">Composite</text>
+              <text class="block-text fragment fade-in" data-fragment-index="1">Composite</text>
+              <use xlink:href="#chain" class="fragment fade-in-then-out" data-fragment-index="1"/>
+              <use xlink:href="#js" class="fragment fade-in" data-fragment-index="2"/>
+              <use xlink:href="#arrow-reverse"/>
+            </g>
+            <g id="screen" transform="translate(25 200)">
+              <use xlink:href="#rect" class="block block--fill" />
+              <text class="block-text">Screen</text>
+            </g>
+          </svg>
+          <p class="Small">* More or less (depending browser)</p>
+        </section>
+
+        <section>
+          <h2>Many APIs</h2>
+          <svg class="svgTagCloud" width="80%" viewBox="0 0 920 400">
+            <defs>
+              <ellipse id="ellipse" rx="120" ry="50" transform="rotate(-5)"/>
+            </defs>
+            <style>
+              .svgTagCloud .block {
+                stroke-width: 2;
+              }
+              .svgTagCloud .block--fill {
+                fill: #BBEA78;
+              }
+              .svgTagCloud .core .block--fill {
+                fill: #EABB78;
+              }
+              .svgTagCloud .api .block--fill {
+                fill: #BB78EA;
+              }
+              .svgTagCloud .worklets .block--fill {
+                fill: #78EABB;
+              }
+              .svgTagCloud .other .block--fill {
+                fill: lightgray;
+              }
+              .svgTagCloud .block--op {
+                fill-opacity: .5;
+              }
+              .svgTagCloud .block-text {
+                font-size: 16px;
+                transform: none;
+              }
+            </style>
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">Houdini is <br>JS-in-CSS</p>
+          <p class="Text fragment">Or rather CSS-by-JS</p>
+        </section>
+
+        <section>
+          <p class="Title Text--overlay fragment fade-out">Can I use Houdini?</p>
+          <iframe src="https://ishoudinireadyyet.com"></iframe>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">Progressive enhancement FTW</p>
+        </section>
+
+        <section class="Showcase">
+          <p class="Title">Warning, fresh paint!</p>
+          <p class="Text">Evrything that is showed here can stop running anytime ¯\_(ツ)_/¯</p>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <h1 class="Title">CSS Typed OM</h1>
+          <p class="Text">CSSOM++</p>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <style>
+              .svgTagCloudSelected .block--fill:not(.block--selected) {
+                fill: #0d4b73 !important;
+                stroke: none;
+              }
+              .svgTagCloudSelected .block-text {
+                fill: white;
+              }
+              .svgTagCloudSelected .block--selected + .block-text {
+                fill: black;
+              }
+            </style>
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">API to manipulate CSS</li>
+            <li class="Text fragment">The new CSSOM</li>
+            <li class="Text fragment">No more concatenations</li>
+            <li class="Text fragment">Better optimizations by the browser</li>
+            <li class="Text fragment">Easier to parse</li>
+          </ul>
+        </section>
+
+        <section>
+<pre><code class="language-javascript u-code-bigger">// CSSOM
+el.style.width = '50px'
+el.style.setProperty('width', '50px')
+el.style.setProperty('transform', 'translate(' + x + 'px, ' + y + 'px)')</code></pre>
+<pre class="fragment"><code class="language-javascript u-code-bigger ">// Typed OM
+el<mark>.attributeStyleMap.set</mark>('width', '50px')
+el.attributeStyleMap.set('width', <mark>CSS.px(50)</mark>)
+el.attributeStyleMap.set('transform', <mark>new CSSTranslate(CSS.px(x), CSS.px(y))</mark>)
+
+<span class="fragment">el<mark>.computedStyleMap().get</mark>('width') // CSSUnitValue {value: 50, unit: 'px'}</span>
+
+<span class="fragment">let [x, y] = [10, 10];
+let transform = new CSSTranslate(CSS.px(x), CSS.px(y))
+<mark>transform.x.value</mark> = 50
+transform.toString() // "translate(50px, 10px)"</span>
+</code></pre>
+        </section>
+
+        <section>
+<pre><code class="language-javascript u-code-bigger">// Parse CSS
+let css = <mark>CSSNumericValue.parse</mark>('42.0px') // {value: 42, unit: 'px'}
+
+let css = <mark>CSSStyleValue.parse</mark>('transform', 'translate3d(10px,10px,0) scale(0.5)');
+/*
+CSSTranslateValue {
+  0: CSSTranslate {
+    is2D: false
+    x: CSSUnitValue {value: 10, unit: 'px'}
+    y: CSSUnitValue {value: 10, unit: 'px'}
+    z: CSSUnitValue {value: 10, unit: 'px'}
+  }
+  1: CSSScale {
+    is2D: true
+    x: CSSUnitValue {value: 0.5, unit: 'number'}
+    y: CSSUnitValue {value: 0.5, unit: 'number'}
+    z: CSSUnitValue {value: 1, unit: 'number'}
+  }
+  is2D: false
+}
+*/
+</code></pre>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">Typed OM == Houdini foundation!</p>
+        </section>
+
+        <section class="Part">
+          <h1 class="Title">CSS Custom Properties</h1>
+          <p class="Text">Not specific to Houdini</p>
+        </section>
+
+        <section class="Demo" data-transition="after-none">
+          <div class="demo">
+            <style>
+            #el0 .el {
+              width: 200px;
+              height: 200px;
+              margin: 50px;
+              background: white;
+              border-radius: 5px;
+              box-shadow: var(--box-shadow-x, 0)
+              var(--box-shadow-y, 3px)
+              var(--box-shadow-blur, 3px)
+              var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            #el0 .el:hover {
+              --box-shadow-y: 15px;
+              --box-shadow-blur: 10px;
+            }
+            </style>
+            <div id="el0">
+              <div class="el"></div>
+            </div>
+          </div>
+<pre><code>.el {
+  box-shadow: 0 3px 3px rgba(0,0,0,.75);
+}
+.el:hover {
+  box-shadow: 0 <mark>15px 10px</mark> rgba(0,0,0,.75);
+}</code></pre>
+        </section>
+
+        <section class="Demo" data-transition="before-none">
+          <div class="demo" id="demo1">
+            <style>
+            #demo1 {
+              background: lightblue;
+            }
+            #el1 .el {
+              width: 200px;
+              height: 200px;
+              margin: 50px;
+              background: white;
+              border-radius: 5px;
+              box-shadow: var(--box-shadow-x, 0)
+              var(--box-shadow-y, 3px)
+              var(--box-shadow-blur, 3px)
+              var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            #el .el:hover {
+              --box-shadow-y: 15px;
+              --box-shadow-blur: 10px;
+            }
+            </style>
+            <div id="el1">
+              <div class="el"></div>
+            </div>
+          </div>
+<pre><code class="liveCoding css" data-livecoding-id="el1" contenteditable>/* Extend CSS: custom properties */
+.el {
+  box-shadow: var(--box-shadow-x, 0) var(<mark>--box-shadow-y</mark>, 3px)
+              var(<mark>--box-shadow-blur</mark>, 3px)
+              var(--box-shadow-color, rgba(0,0,0,.75));
+}
+.el:hover {
+  <mark>--box-shadow-y: 15px;</mark>
+  <mark>--box-shadow-blur: 10px;</mark>
+}</code></pre>
+        </section>
+
+        <section class="Demo">
+          <div class="demo" id="demo2">
+            <style>
+            #demo2 {
+              background: lightblue;
+            }
+            #el2 {
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 3em;
+              font-weight: bold;
+              padding: 50px 0;
+              margin: 50px auto;
+              color: white;
+              text-shadow: var(--text-shadow-x, 0)
+              var(--text-shadow-y, 3px)
+              var(--text-shadow-blur, 3px)
+              var(--text-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el2">
+              HELLO CSS!
+            </div>
+            <script>
+            window.addEventListener('load', () => {
+              var bounds = el2.getBoundingClientRect()
+              el2.addEventListener('mousemove', e => {
+                const x = (e.offsetX / el2.clientWidth) * 2 - 1
+                const y = (e.offsetY / el2.clientHeight) * 2 - 1
+                let blur = Math.sqrt(Math.pow(e.offsetX - (bounds.left + bounds.width) / 2, 2) + Math.pow(e.offsetY - (bounds.top + bounds.height) / 2, 2))
+                blur /= (el2.clientWidth / 3)
+                el2.style.setProperty('--text-shadow-x', x * 20 + 'px')
+                el2.style.setProperty('--text-shadow-y', y * 20 + 'px')
+                el2.style.setProperty('--text-shadow-blur', blur * 15 + 'px')
+              })
+            })
+            </script>
+          </div>
+          <div class="pres">
+<pre><code>.el {
+  text-shadow: 
+    var(--x, 0)
+    var(--y, 3px)
+    var(--blur, 3px)
+    var(--color, rgba(0,0,0,.75));
+}</code></pre>
+<pre><code class="language-javascript">// Change in JS
+el.addEventListener(<mark>'mousemove'</mark>, e => {
+  el<mark>.attributeStyleMap.set('--x'</mark>, e.offsetX)
+  el<mark>.attributeStyleMap.set('--y'</mark>, e.offsetY)
+  el<mark>.attributeStyleMap.set('--blur'</mark>, blur)
+})</code></pre>
+          </div>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <h1 class="Title">CSS Custom Properties ++</h1>
+          <p class="Text">Properties & Values API</p>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section class="Demo">
+          <div class="demo" id="demo3">
+            <style>
+            #demo3 {
+              background: lightblue;
+            }
+            #el3 {
+              width: 200px;
+              height: 200px;
+              margin: 50px auto;
+              background: white;
+              border-radius: 5px;
+              --box-shadow-x: 0;
+              --box-shadow-y-el3: 3px;
+              --box-shadow-blur-el3: 3px;
+              --box-shadow-color: rgba(0,0,0,.75);
+              box-shadow: var(--box-shadow-x)
+              var(--box-shadow-y-el3)
+              var(--box-shadow-blur-el3)
+              var(--box-shadow-color);
+              transition: --box-shadow-blur-el3 .45s, --box-shadow-y-el3 .45s;
+            }
+            #el3:hover {
+              --box-shadow-y-el3: 15px;
+              --box-shadow-blur-el3: 20px;
+            }
+            </style>
+            <div id="el3"></div>
+            <script>
+            CSS.registerProperty({
+              name: '--box-shadow-blur-el3',
+              syntax: '<length>',
+              inherits: false,
+              initialValue: '0px'
+            })
+            CSS.registerProperty({
+              name: '--box-shadow-y-el3',
+              syntax: '<length>',
+              inherits: false,
+              initialValue: '0px'
+            })
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">// Set an animatable property
+CSS.<mark>registerProperty</mark>({
+  name: <mark>'--box-shadow-blur'</mark>,
+  syntax: <mark>'&lt;length>'</mark>,
+  inherits: false,
+  initialValue: '0px'
+})</code></pre>
+<pre><code>.el {
+  <mark>transition-property: --box-shadow-blur, --box-shadow-y;</mark>
+  transition-duration: .45s;
+}
+.el:hover {
+  --box-shadow-y: 15px;
+  --box-shadow-blur: 10px;
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out"><span class="Tag Tag--creative">Creative</span> Animate a gradient</p>
+          <iframe src="https://css-houdini.rocks/animating-gradient/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="Part">
+          <h1 class="Title">Worklets</h1>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text"><strong>Isolated</strong> environment</li>
+            <li class="Text fragment">Similar to Web Workers</li>
+            <li class="Text fragment">Light, reusable, trashable</li>
+            <li class="Text fragment">Only HTTPS</li>
+          </ul>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <h2 class="Title">Paint API</h2>
+          <p class="Subtitle">Worklet</p>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">Draw a canvas in background images</li>
+            <li class="Text fragment">Automatically redrawn, resized</li>
+            <li class="Text fragment">In its own thread</li>
+            <li class="Text fragment">No need DOM elements</li>
+          </ul>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text"><code class="language-javascript">CSS.paintWorklet.addModule('paint.js')</code></li>
+            <li class="Text fragment">Worklet: <code class="language-javascript">registerPaint()</code></li>
+            <li class="Text fragment">CSS: <code>paint()</code></li>
+          </ul>
+        </section>
+
+        <section class="Demo" data-transition="after-none">
+          <div class="demo">
+            <style>
+            #el4 {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              margin: 50px auto;
+              border-radius: 5px;
+              background-color: white;
+              background-image: paint(circle);
+              overflow: hidden;
+              resize: both;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el4">CSS!</div>
+            <script>
+            CSS.paintWorklet.addModule('css/worklets/paint-circle.js');
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerPaint(<mark>'circle'</mark>, class {
+  paint(ctx, geom, props, args) {
+    // Get the center point and radius
+    const x = geom.width / 2;
+    const y = geom.height / 2;
+    const radius = Math.min(x, y);
+
+    // Draw the circle
+    ctx.fillStyle = <mark>'deeppink'</mark>;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}</code></pre>
+<pre><code>.el {
+  background-image: paint(<mark>circle</mark>);
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="Demo" data-transition="none">
+          <div class="demo">
+            <style>
+            #el5 .el {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              margin: 50px auto;
+              border-radius: 5px;
+              background-color: white;
+              background-image: paint(circle-props);
+              overflow: hidden;
+              resize: both;
+              --circle-color: deepskyblue;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el5">
+              <div class="el">CSS!</div>
+            </div>
+            <script>
+            CSS.paintWorklet.addModule('css/worklets/paint-circle-props.js');
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerPaint('circle-props', class {
+  <mark>static get inputProperties() { return ['--circle-color']; }</mark>
+  paint(ctx, geom, props, args) {
+    // Determine the center point and radius.
+    const x = geom.width / 2;
+    const y = geom.height / 2;
+    const radius = Math.min(x, y);
+
+    // Draw the circle
+    ctx.fillStyle = <mark>props.get('--circle-color').value</mark>;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}</code></pre>
+<pre><code class="liveCoding css" data-livecoding-id="el5" contenteditable>.el {
+  <mark>--circle-color: deepskyblue;</mark>
+  background-image: paint(circle-props);
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="Demo" data-transition="before-none">
+          <div class="demo">
+            <style>
+            #el6 .el {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              margin: 50px auto;
+              border-radius: 5px;
+              color: #111;
+              background-color: white;
+              background-image: paint(circle-ripple);
+              overflow: hidden;
+              resize: both;
+              --circle-radius: 0;
+              --circle-color: deepskyblue;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            #el6 .el.animating {
+              transition: --circle-radius 1s, --circle-color 1s;
+              --circle-radius: 300;
+              --circle-color: transparent;
+            }
+            </style>
+            <div id="el6">
+              <div class="el">Click!</div>
+            </div>
+            <script>
+            CSS.paintWorklet.addModule('css/worklets/paint-circle-ripple.js');
+            window.addEventListener('load', () => {
+              const customProps =  [
+                {name: '--circle-x', syntax: '<number>', inherits: true, initialValue: '0'},
+                {name: '--circle-y', syntax: '<number>', inherits: true, initialValue: '0'},
+                {name: '--circle-radius', syntax: '<number>', inherits: true, initialValue: '0'},
+                {name: '--circle-color', syntax: '<color>', inherits: true, initialValue: '#fff8'}
+              ];
+              customProps.forEach(CSS.registerProperty);
+              const el = el6.querySelector('.el');
+              el.addEventListener('click', (evt) => {
+                el.classList.remove('animating');
+                requestAnimationFrame(() => {
+                  el.classList.add('animating');
+                  el.style.setProperty('--circle-x', evt.offsetX);
+                  el.style.setProperty('--circle-y', evt.offsetY);
+                });
+              });
+              el.addEventListener('transitionend', () => {
+                el.classList.remove('animating');
+              });
+            })
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerPaint('circle-ripple', class {
+  static get inputProperties() { return [ '--circle-color',
+    <mark>'--circle-radius', '--circle-x', '--circle-y'</mark>
+  ]}
+  paint(ctx, geom, props, args) {
+    const x = <mark>props.get('--circle-x').value;</mark>
+    const y = <mark>props.get('--circle-y').value;</mark>
+    const radius = <mark>props.get('--circle-radius').value;</mark>
+  }
+}</code><code class="language-javascript">el.addEventListener('click', e => {
+  el.classList.add(<mark>'animating'</mark>);
+  el<mark>.attributeStyleMap.set('--circle-x'</mark>, e.offsetX);
+  el<mark>.attributeStyleMap.set('--circle-y'</mark>, e.offsetY);
+});
+</code></pre>
+<pre><code class="liveCoding css" data-livecoding-id="el6" contenteditable>.el {
+  <mark>--circle-radius: 0;</mark>
+  --circle-color: deepskyblue;
+  background-image: paint(circle-ripple);
+}
+.el<mark>.animating</mark> {
+  <mark>transition</mark>: --circle-radius 1s,
+              --circle-color 1s;
+  --circle-radius: 300;
+  --circle-color: transparent;
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--creative">Creative</span>
+            </span>
+            Artistic drawing
+          </p>
+          <iframe src="https://css-houdini.rocks/double-rainbow/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--creative">Creative</span>
+                <span class="Tag">Backgrounds</span>
+            </span>
+            Corners gradient</p>
+          <iframe src="https://css-houdini.rocks/corners-gradient/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--polyfill">Polyfill</span>
+                <span class="Tag">Backgrounds</span>
+            </span>
+            corner-shape
+          </p>
+          <iframe src="https://css-houdini.rocks/corner-shape/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--polyfill">Polyfill</span>
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Backgrounds</span>
+            </span>
+            background-filter / opacity / rotate
+          </p>
+          <iframe src="https://css-houdini.rocks/background-properties/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Backgrounds</span>
+            </span>
+            Highlighter marker
+          </p>
+          <iframe src="https://css-houdini.rocks/highlighter-marker-annotations/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Borders</span>
+            </span>
+            Tooltip arrow
+          </p>
+          <iframe src="https://css-houdini.rocks/tooltip/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Borders</span>
+            </span>
+            Rough borders
+          </p>
+          <iframe src="https://css-houdini.rocks/rough-boxes/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section>
+          <p class="Title">Reusable and trashable worklet ?</p>
+          <p class="Text fragment">Slightly bypassed using seed random numbers</p>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Masks</span>
+            </span>
+            Random bubbles
+          </p>
+          <iframe src="https://css-houdini.rocks/random-bubbles-mask/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">Masks</span>
+            </span>
+            Irregular grid
+          </p>
+          <iframe src="https://css-houdini.rocks/irregular-grid/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag">🤯</span>
+            </span>
+            JS-in-CSS
+          </p>
+          <iframe src="https://css-houdini.rocks/js-in-css/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <h2 class="Title">Layout API</h2>
+          <p class="Subtitle">Worklet</p>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">Build its own layout</li>
+            <li class="Text fragment">À la Flexbox / Grid</li>
+            <li class="Text fragment">Only for the children</li>
+            <li class="Text fragment">On its own thread*</li>
+            <li class="Text fragment">Pretty complex</li>
+          </ul>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text"><code class="language-javascript">CSS.layoutWorklet.addModule('layout.js')</code></li>
+            <li class="Text fragment">Worklet: <code class="language-javascript">registerLayout()</code></li>
+            <li class="Text fragment">CSS: <code>layout()</code></li>
+          </ul>
+        </section>
+
+        <section class="Demo" data-transition="after-none">
+          <div class="demo">
+            <style>
+            #el7 {
+              display: layout(center);
+              width: 700px;
+              height: 300px;
+              border: 3px dashed #fff;
+              background: rgba(255,255,255,.25);
+              margin: 50px auto;
+              overflow: hidden;
+              resize: both;
+            }
+            #el7 div {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              border-radius: 5px;
+              color: #111;
+              background-color: white;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el7" class="parent"><div>CSS!</div></div>
+            <script>
+            CSS.layoutWorklet.addModule('css/worklets/layout-center.js');
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerLayout('center', class {
+  *layout(<mark>children</mark>, edges, constraintSpace, props) {
+    let childFragments = [];
+    <mark>for(let child of children)</mark> {
+      let childFragment = yield <mark>child.layoutNextFragment()</mark>;
+      let childHalfSize = childFragment.inlineSize / 2;
+      let parentHalfSize = constraintSpace.fixedInlineSize / 2;
+      <mark>childFragment.inlineOffset</mark> = parentHalfSize - childHalfSize;
+      childFragments.push(childFragment);
+    }
+    return { childFragments };
+  }
+});</code></pre>
+<pre><code>.parent {
+  display: layout(<mark>center</mark>);
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="Demo" data-transition="none">
+          <div class="demo">
+            <style>
+            #el8 .parent {
+              display: layout(center);
+              width: 700px;
+              height: 300px;
+              border: 3px dashed #fff;
+              background: rgba(255,255,255,.25);
+              margin: 50px auto;
+              overflow: hidden;
+              resize: both;
+            }
+            #el8 .parent div {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              border-radius: 5px;
+              color: #111;
+              background-color: white;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el8"><div class="parent"><div>CSS!</div></div></div>
+            <script>
+            CSS.registerProperty({
+              name: '--position-x',
+              syntax: '<percentage>',
+              inherits: false,
+              initialValue: '0%'
+            })
+            CSS.layoutWorklet.addModule('css/worklets/layout-position.js');
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerLayout('position', class {
+  <mark>static get inputProperties() { return ['--position-x']; }</mark>
+  *layout(children, edges, constraintSpace, props) {
+    <mark>let posx = props.get('--position-x').value;</mark>
+    let pos = constraintSpace.fixedInlineSize / <mark>(100 / posx)</mark>;
+  }
+});</code></pre>
+<pre><code class="liveCoding css" data-livecoding-id="el8" contenteditable>.parent {
+  display: layout(position);
+  <mark>--position-x: 50%;</mark>
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="Demo" data-transition="before-none">
+          <div class="demo">
+            <style>
+            #el9 .parent {
+              display: layout(center);
+              width: 700px;
+              height: 300px;
+              border: 3px dashed #fff;
+              background: rgba(255,255,255,.25);
+              margin: 50px auto;
+              overflow: hidden;
+              resize: both;
+            }
+            #el9 .parent div {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              border-radius: 5px;
+              color: #111;
+              background-color: white;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+              pointer-events: none;
+            }
+            #el9 .parent.animating {
+              transition: --position-x 1s;
+            }
+            </style>
+            <div id="el9"><div class="parent"><div>Click outside!</div></div></div>
+            <script>
+            window.addEventListener('load', () => {
+              let el9 = document.getElementById('el9');
+              let el9_el = el9.querySelector('.parent');
+              el9_el.addEventListener('click', (evt) => {
+                el9_el.classList.remove('animating');
+                requestAnimationFrame(() => {
+                  el9_el.classList.add('animating');
+                  el9_el.style.setProperty('--position-x', CSS.percent(100 * evt.offsetX / el9.clientWidth));
+                });
+              });
+              el9.addEventListener('transitionend', () => {
+                el9_el.classList.remove('animating');
+              });
+            });
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerLayout('position', class {
+  static get inputProperties() { }
+  *layout(children, edges, constraintSpace, props) { }
+});</code><code class="language-javascript">parent.addEventListener('click', e => {
+  parent.classList.add(<mark>'animating'</mark>);
+  let pos = 100 * e.offsetX / parentWidth;
+  parent<mark>.attributeStyleMap.set('--position-x'</mark>, <mark>CSS.percent(pos)</mark>);
+});</code></pre>
+<pre><code class="liveCoding css" data-livecoding-id="el9" contenteditable>.parent {
+  display: layout(position);
+  --position-x: 50%;
+}
+.parent<mark>.animating</mark> {
+  <mark>transition: --position-x 1s;</mark>
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--creative">Creative</span>
+            </span>
+            Masonry
+          </p>
+          <iframe src="https://css-houdini.rocks/masonry/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--polyfill">Polyfill</span>
+            </span>
+            Android RelativeLayout
+          </p>
+          <iframe src="demos/relative" frameborder="0"></iframe>
+        </section>
+
+        <section class="u-justifyContent-start">
+          <p class="Title Text--overlay fragment fade-out">
+            <span class="Tags">
+                <span class="Tag Tag--creative">Creative</span>
+            </span>
+            SVG Path
+          </p>
+          <iframe src="https://css-houdini.rocks/svg-path-layout/?embed" frameborder="0"></iframe>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <h2 class="Title">Animation API</h2>
+          <p class="Subtitle">Worklet</p>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">Animations on their own thread</li>
+            <li class="Text fragment">Based on Web Animations API</li>
+            <li class="Text fragment">Timeline based on time or scroll</li>
+            <li class="Text fragment">Only for performance</li>
+            <li class="Text fragment">Only JavaScript</li>
+          </ul>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text"><code class="language-javascript">CSS.animationWorklet.addModule('anim.js')</code></li>
+            <li class="Text fragment"><code class="language-javascript">registerAnimator()</code></li>
+            <li class="Text fragment"><code class="language-javascript">new WorkletAnimation()</code></li>
+          </ul>
+        </section>
+
+        <section class="Demo" style="justify-content: flex-start;">
+          <div class="demo">
+            <style>
+            #el11 {
+              width: 700px;
+              height: 300px;
+              margin: 50px auto 20px;
+              overflow-y: scroll;
+              border: 3px dashed #fff;
+              background: rgba(255,255,255,.25);
+            }
+            #el11-inner {
+              position: relative;
+              height: 2000px;
+            }
+            .cube-wrap {
+              --size: 150px;
+              position: fixed;
+              top: 205px;
+              left: 50%;
+              width: 0;
+              height: 0;
+              perspective: 100vmin;
+              pointer-events: none;
+            }
+            .cube {
+              --angle: 0;
+              transform-style: preserve-3d;
+              transform: rotateX(var(--angle)) rotateZ(45deg) rotateY(-45deg);
+            }
+            .side {
+              position: absolute;
+              width: var(--size);
+              height: var(--size);
+              background-color: hsl(var(--hue, 260), 53%, var(--luminosity, 50%));
+              backface-visibility: visible;
+              top: calc(var(--size) * -.5);
+              left: calc(var(--size) * -.5);
+            }
+            .top {
+              --luminosity: 79%;
+              transform: rotateX(90deg) translateZ(calc(var(--size) * .5));
+            }
+            .bottom {
+              --luminosity: 29%;
+              transform: rotateX(90deg) translateZ(calc(var(--size) * -.5));
+            }
+            .left {
+              --luminosity: 59%;
+              transform: rotateY(90deg) translateZ(calc(var(--size) * .5));
+            }
+            .right {
+              --luminosity: 69%;
+              transform: rotateY(90deg) translateZ(calc(var(--size) * -.5));
+            }
+            .front {
+              --luminosity: 39%;
+              transform: translateZ(calc(var(--size) * .5));
+            }
+            .back {
+              --luminosity: 49%;
+              transform: translateZ(calc(var(--size) * -.5));
+            }
+            </style>
+            <div>
+              <div id="el11">
+                <div id="el11-inner">
+                  <div class="cube-wrap">
+                    <div class="cube">
+                      <div class="side top"></div>
+                      <div class="side bottom"></div>
+                      <div class="side front"></div>
+                      <div class="side back"></div>
+                      <div class="side left"></div>
+                      <div class="side right"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="u-small">Based on a Scott Kellum <a href="https://codepen.io/scottkellum/pen/WWeXab">idea</a></p>
+            </div>
+            <script>
+            window.addEventListener('load', () => {
+              let scrollElement11 = document.getElementById('el11');
+              let scrollHeight11 = scrollElement11.scrollHeight;
+              CSS.registerProperty({
+                name: '--angle',
+                syntax: '<angle>',
+                inherits: false,
+                initialValue: '0deg'
+              })
+              CSS.animationWorklet.addModule("css/worklets/anim-simple.js")
+              .then(r => {
+                let foo = document.querySelector('#el11 .cube');
+                new WorkletAnimation(
+                  'simple',
+                  new KeyframeEffect(
+                    foo,
+                    [
+                      {
+                        '--angle': '0deg'
+                      },
+                      {
+                        '--angle': '1turn'
+                      }
+                    ],
+                    {
+                      duration: 1,
+                      iterations: 1,
+                      fill: 'both'
+                    }
+                  ),
+                  new ScrollTimeline({
+                    scrollSource: scrollElement11,
+                    orientation: "vertical", // "horizontal" or "vertical".
+                    timeRange: 1
+                  })
+                ).play();
+              })
+            })
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerAnimator('simple', class {
+  animate(currentTime, effect) {
+    <mark>effect.localTime = currentTime</mark>;
+  }
+});</code><code class="language-css">.cube {
+  <mark>--angle: 0;</mark>
+  transform: <mark>rotateX(var(--angle))</mark> rotateZ(45deg) rotateY(-45deg);
+}</code></pre>
+<pre><code class="language-javascript">new <mark>WorkletAnimation</mark>('simple',
+  new <mark>KeyframeEffect</mark>(el, [
+      { <mark>'--angle': 0</mark> },
+      { <mark>'--angle': '1turn'</mark> }
+    ],
+    { <mark>duration: 1</mark> }
+  ),
+  new <mark>ScrollTimeline</mark>({
+    <mark>scrollSource: scrollElement</mark>,
+    <mark>timeRange: 1</mark>
+  }),
+).play();</code></pre>
+          </div>
+        </section>
+
+        <section class="Demo">
+          <div class="demo">
+            <style>
+            #el10 {
+              width: 700px;
+              height: 300px;
+              margin: 50px auto 20px;
+              overflow-y: scroll;
+              border: 3px dashed #fff;
+              background: rgba(255,255,255,.25);
+            }
+            #el10-inner {
+              height: 2000px;
+              padding-top: 50px;
+              display: flex;
+              justify-content: space-around;
+              align-items: flex-start;
+            }
+            #el10 .el {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 200px;
+              height: 200px;
+              border-radius: 5px;
+              color: #111;
+              background-color: white;
+              box-shadow: var(--box-shadow-x, 0)
+                var(--box-shadow-y, 3px)
+                var(--box-shadow-blur, 3px)
+                var(--box-shadow-color, rgba(0,0,0,.75));
+            }
+            </style>
+            <div id="el10">
+              <div id="el10-inner">
+                <div class="el">Scroll!</div>
+                <div class="el">Scroll!</div>
+                <div class="el">Scroll!</div>
+              </div>
+            </div>
+            <script>
+            window.addEventListener('load', () => {
+              let scrollElement = document.getElementById('el10');
+              let scrollHeight = scrollElement.scrollHeight;
+              CSS.animationWorklet.addModule("css/worklets/anim-parallax.js")
+              .then(r => {
+                let foos = document.querySelectorAll('#el10 .el');
+                for (let i = 0; i < foos.length; i++) {
+                  let factor = (i / 2) * (1.2 - 1) + 1;
+                  new WorkletAnimation(
+                    'parallax',
+                    new KeyframeEffect(
+                      foos[i],
+                      [
+                        {
+                          transform: new CSSTranslate(CSS.px(0), CSS.px(0))
+                        },
+                        {
+                          transform: new CSSTranslate(CSS.px(0), CSS.px(scrollHeight - 200))
+                        }
+                      ],
+                      {
+                        duration: 1,
+                        iterations: 1,
+                        fill: 'both'
+                      }
+                    ),
+                    new ScrollTimeline({
+                      scrollSource: scrollElement,
+                      orientation: "vertical",
+                      timeRange: 1
+                    }),
+                    { factor }
+                  ).play();
+                }
+              })
+            })
+            </script>
+          </div>
+          <div class="pres">
+<pre><code class="language-javascript">registerAnimator('parallax', class {
+  constructor(options = {}) {
+    this.factor = <mark>options.factor</mark> || 1;
+  }
+  animate(currentTime, effect) {
+    <mark>effect.localTime = currentTime * this.factor;</mark>
+  }
+});</code></pre>
+<pre><code class="language-javascript">for (let i = 0; i &lt; els.length; i++) {
+  new WorkletAnimation('parallax',
+    new <mark>KeyframeEffect</mark>(els[i], [
+        { transform: new CSSTranslate(0, 0) },
+        { transform: new CSSTranslate(0, <mark>CSS.px(scrollHeight)</mark>) }
+      ], { duration: 1 }
+    ),
+    new <mark>ScrollTimeline</mark>({
+      scrollSource: scrollElement,
+      timeRange: 1
+    }),
+    { <mark>factor</mark>: (i / 2) * (1.2 - 1) + 1 }
+  ).play();
+}</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">Even simpler? With CSS?</li>
+            <li class="Text fragment"><code>animation-timeline: scroll()</code></li>
+            <li class="Text fragment"><a href="https://wicg.github.io/scroll-animations/">Scroll-linked Animations</a> (Not Houdini)</li>
+          </ul>
+        </section>
+
+        <section class="Part" data-transition="after-none">
+          <p class="Title">CSS Parser, Render Tree, Font Metrics</p>
+          <div class="Text">The future?</div>
+        </section>
+
+        <section class="Part" data-transition="before-none">
+          <svg class="svgTagCloud svgTagCloudSelected" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70%" viewBox="0 0 920 400">
+            <g class="core" transform="translate(50 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">CSS Parser API</text>
+              </g>
+              <g class="renderTree" transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">Box Tree API (render tree)</text>
+              </g>
+            </g>
+            <g class="api" transform="translate(50 190)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Typed OM</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Properties &amp; Values</text>
+              </g>
+            </g>
+            <g class="worklets" transform="translate(360 85)">
+              <g transform="translate(100 100)">
+                <circle r="170" class="block block--fill block--op"/>
+                <text class="block-text block-text--white" style="transform:translate(0, -140px)">Worklets</text>
+              </g>
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Paint API</text>
+              </g>
+              <g transform="translate(100 120)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">CSS Layout API</text>
+              </g>
+              <g transform="translate(100 190)">
+                <use xlink:href="#ellipse" class="block block--fill" />
+                <text class="block-text">Animation Worklet API</text>
+              </g>
+            </g>
+            <g class="other" transform="translate(670 10)">
+              <g transform="translate(100 50)">
+                <use xlink:href="#ellipse" class="block block--fill block--selected" />
+                <text class="block-text">Font Metrics API</text>
+              </g>
+            </g>
+          </svg>
+        </section>
+
+        <section>
+          <ul>
+            <li class="Text">Nothing really exists</li>
+            <li class="Text fragment">It’s up to you!</li>
+            <li class="Text fragment"><a href="https://github.com/w3c/css-houdini-drafts">W3C/css-houdini-drafts</a></li>
+          </ul>
+        </section>
+
+        <section class="Jumbo">
+          <p class="Title">Sky’s the limit</p>
+          <p class="Text">Wait & See</p>
+        </section>
+
+        <section class="Part">
+          <h1 class="Title">Questions</h1>
+        </section>
+
+        <section>
+          <h2 class="Title">New graphical effects?</h2>
+          <ul>
+            <li class="Text fragment Yep">Increase creativity</li>
+            <li class="Text fragment Nope">Everything is JavaScript</li>
+            <li class="Text fragment Nope">Pretty complex to use</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="Title">Performance?</h2>
+          <ul>
+            <li class="Text fragment Yep">Perf boost, mainly for animations</li>
+            <li class="Text fragment Nope">Not always true (today)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="Title">Standardization?</h2>
+          <ul>
+            <li class="Text fragment Yep">No need to wait for standards</li>
+            <li class="Text fragment Nope">Everything have to be build from the ground (prediction: heterogeneous ecosytem)</li>
+            <li class="Text fragment Yep">Standards can evoluate</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="Title">Polyfill?</h2>
+          <ul>
+            <li class="Text fragment Yep">More performant, more easily</li>
+            <li class="Text fragment Nope">Quickly limited (today?)</li>
+            <li class="Text fragment Nope">Many impossible effects: <code>element()</code>, <code>backdrop-filter</code>, CSS Shaders 😍, etc.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="Title">Browser engine innovation?</h2>
+          <ul>
+            <li class="Text fragment Yep">Performance optimizations by the browser</li>
+            <li class="Text fragment Nope">Houdini based on an actual rendering pipeline</li>
+            <li class="Text fragment Nope">Firefox and its new engine WebRender?</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="Title">Security?</h2>
+          <ul>
+            <li class="Text fragment Nope">ex: <code>paint()</code> not on links</li>
+            <li class="Text fragment Nope">Only HTTPS</li>
+            <li class="Text fragment Nope">Similar fate than CSS Shaders?</li>
+          </ul>
+        </section>
+
+        <section class="Showcase">
+          <h1>Thanks!</h1>
+          <p class="Text"><a href="https://slides.iamvdo.me/waq19">https://slides.iamvdo.me/waq19</a></p>
+          <p class="Text"><a href="https://css-houdini.rocks">https://css-houdini.rocks</a></p>
+          <p>Vincent De Oliveira &middot; <a href="http://twitter.com/iamvdo">@iamvdo</a> &middot; <a href="http://iamvdo.me">iamvdo.me</a></p>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="info-overlay" id="info-twitter">
+      <a href="https://twitter.com/iamvdo">@iamvdo</a>
+      <a href="https://slides.iamvdo.me/waq19/fr" id="info-slides">Version FR</a>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        width: "100%",
+        height: "100%",
+        center: false,
+        margin: 0,
+        minScale: 1,
+        maxScale: 1,
+
+        backgroundTransition: 'slide',
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/prismjs/prism.js', async: true, callback: function () { Prism.highlightAll(); } },
+          { src: 'plugin/prefixfree/prefixfree.js', async: true },
+          { src: 'plugin/live-coding/live-coding.js', async: true, condition: function() { return !!document.body.classList; }},
+          { src: 'plugin/nav/nav.js', async: true},
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'socket.io/socket.io.js', async: true },
+          { src: 'plugin/notes-server/client.js', async: true }
+        ]
+      });
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-17376769-7']);
+        _gaq.push(['_setDomainName', 'iamvdo.me']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+  </body>
+</html>
