@@ -7,6 +7,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Slab);
 @import url(../../plugin/prismjs/prism.css);
 @import url(../../plugin/nav/nav.css);
+@import url(../../plugin/i18n/i18n.css);
 @font-face {
   font-family: Atipo Bold;
   src: url(../fonts/atipo6.woff); }
@@ -651,12 +652,6 @@ body {
 .info-overlay a:hover,
 .info-overlay a:focus {
   text-decoration: underline; }
-
-#info-slides {
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center; }
 
 /*********************************************
  * NAVIGATION CONTROLS

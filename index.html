@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>CSS Houdini, More than magic</title>
+    <title data-translate>CSS Houdini, More than magic</title>
 
     <meta name="description" content="Slides Web à Québec 2019 - CSS Houdini">
 
@@ -21,6 +21,7 @@
       link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
       document.getElementsByTagName( 'head' )[0].appendChild( link );
     </script>
+
   </head>
   <body>
     <div class="reveal iamvdo language-css">
@@ -28,7 +29,7 @@
 
         <section class="Showcase">
           <h1>CSS Houdini
-            <span class="h2">More than magic!</span>
+            <span class="h2" data-translate>More than magic!</span>
           </h1>
           <p class="u-aligncenter u-small u-margin">
             Vincent De Oliveira &middot; <a href="http://twitter.com/iamvdo">@iamvdo</a>
@@ -36,7 +37,7 @@
         </section>
 
         <section class="Part">
-          <p class="Title">Hello, it’s <a href="http://twitter.com/iamvdo">@iamvdo</a></p>
+          <p class="Title"><span data-translate>Hello, it’s</span> <a href="http://twitter.com/iamvdo">@iamvdo</a></p>
         </section>
 
         <section>
@@ -44,34 +45,34 @@
         </section>
 
         <section class="Jumbo">
-          <p class="Title">For CSS ?</p>
+          <p class="Title" data-translate>For CSS?</p>
         </section>
 
         <section>
-          <p class="Title">Build CSS Polyfills</p>
-          <p class="Subtitle">Today, it’s <strike>complicated</strike> impossible to <em>polyfill</em> CSS, even with JS.</p>
+          <p class="Title" data-translate>Build CSS Polyfills</p>
+          <p class="Subtitle" data-translate>Today, it’s <strike>complicated</strike> impossible to <em>polyfill</em> CSS, even with JS.</p>
           <p class="Small"><a href="https://philipwalton.com/articles/the-dark-side-of-polyfilling-css/">https://philipwalton.com/articles/the-dark-side-of-polyfilling-css/</a></p>
         </section>
 
         <section>
-          <p class="Title">Build its own graphical effects</p>
+          <p class="Title" data-translate>Build its own graphical effects</p>
         </section>
 
         <section>
-          <p class="Title">Build its own langage addons</p>
+          <p class="Title" data-translate>Build its own langage addons</p>
         </section>
 
         <section class="Jumbo">
-          <p class="Subtitle u-mt-neg">in a nutshell</p>
-          <p class="Title">Innovate</p>
+          <p class="Subtitle u-mt-neg" data-translate>in a nutshell</p>
+          <p class="Title" data-translate>Innovate</p>
         </section>
 
         <section class="Jumbo">
-          <p class="Title">Welcome Houdini!</p>
+          <p class="Title" data-translate>Welcome Houdini!</p>
         </section>
 
         <section>
-          <h2>Browser rendering*</h2>
+          <h2 data-translate>Browser rendering*</h2>
           <svg width="100%" viewBox="0 0 480 300">
             <defs>
               <rect id="rect" width="80" height="50"/>
@@ -229,14 +230,14 @@
             </g>
             <g id="screen" transform="translate(25 200)">
               <use xlink:href="#rect" class="block block--fill" />
-              <text class="block-text">Screen</text>
+              <text class="block-text" data-translate>Screen</text>
             </g>
           </svg>
-          <p class="Small">* More or less (depending browser)</p>
+          <p class="Small" data-translate>* More or less (depending browser)</p>
         </section>
 
         <section>
-          <h2>Many APIs</h2>
+          <h2 data-translate>Many APIs</h2>
           <svg class="svgTagCloud" width="80%" viewBox="0 0 920 400">
             <defs>
               <ellipse id="ellipse" rx="120" ry="50" transform="rotate(-5)"/>
@@ -316,22 +317,17 @@
         </section>
 
         <section class="Jumbo">
-          <p class="Title">Houdini is <br>JS-in-CSS</p>
-          <p class="Text fragment">Or rather CSS-by-JS</p>
+          <p class="Title" data-translate>Houdini is <br>JS-in-CSS</p>
+          <p class="Text fragment" data-translate>Or rather CSS-by-JS</p>
         </section>
 
         <section>
-          <p class="Title Text--overlay fragment fade-out">Can I use Houdini?</p>
+          <p class="Title Text--overlay fragment fade-out" data-translate>Can I use Houdini?</p>
           <iframe src="https://ishoudinireadyyet.com"></iframe>
         </section>
 
         <section class="Jumbo">
-          <p class="Title">Progressive enhancement FTW</p>
-        </section>
-
-        <section class="Showcase">
-          <p class="Title">Warning, fresh paint!</p>
-          <p class="Text">Evrything that is showed here can stop running anytime ¯\_(ツ)_/¯</p>
+          <p class="Title" data-translate>Progressive enhancement FTW</p>
         </section>
 
         <section class="Part" data-transition="after-none">
@@ -402,11 +398,11 @@
 
         <section>
           <ul>
-            <li class="Text">API to manipulate CSS</li>
-            <li class="Text fragment">The new CSSOM</li>
-            <li class="Text fragment">No more concatenations</li>
-            <li class="Text fragment">Better optimizations by the browser</li>
-            <li class="Text fragment">Easier to parse</li>
+            <li class="Text" data-translate>API to manipulate CSS</li>
+            <li class="Text fragment" data-translate>The new CSSOM</li>
+            <li class="Text fragment" data-translate>No more concatenations</li>
+            <li class="Text fragment" data-translate>Better optimizations by the browser</li>
+            <li class="Text fragment" data-translate>Easier to parse</li>
           </ul>
         </section>
 
@@ -455,12 +451,12 @@ CSSTranslateValue {
         </section>
 
         <section class="Jumbo">
-          <p class="Title">Typed OM == Houdini foundation!</p>
+          <p class="Title" data-translate>Typed OM == Houdini foundation!</p>
         </section>
 
         <section class="Part">
           <h1 class="Title">CSS Custom Properties</h1>
-          <p class="Text">Not specific to Houdini</p>
+          <p class="Text" data-translate>Not specific to Houdini</p>
         </section>
 
         <section class="Demo" data-transition="after-none">
@@ -706,7 +702,7 @@ CSS.<mark>registerProperty</mark>({
         </section>
 
         <section class="u-justifyContent-start">
-          <p class="Title Text--overlay fragment fade-out"><span class="Tag Tag--creative">Creative</span> Animate a gradient</p>
+          <p class="Title Text--overlay fragment fade-out"><span class="Tag Tag--creative" data-translate>Creative</span> <span data-translate>Animate a gradient</span></p>
           <iframe src="https://css-houdini.rocks/animating-gradient/?embed" frameborder="0"></iframe>
         </section>
 
@@ -716,10 +712,10 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text"><strong>Isolated</strong> environment</li>
-            <li class="Text fragment">Similar to Web Workers</li>
-            <li class="Text fragment">Light, reusable, trashable</li>
-            <li class="Text fragment">Only HTTPS</li>
+            <li class="Text" data-translate><strong>Isolated</strong> environment</li>
+            <li class="Text fragment" data-translate>Similar to Web Workers</li>
+            <li class="Text fragment" data-translate>Light, reusable, trashable</li>
+            <li class="Text fragment" data-translate>Only HTTPS</li>
           </ul>
         </section>
 
@@ -779,10 +775,10 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text">Draw a canvas in background images</li>
-            <li class="Text fragment">Automatically redrawn, resized</li>
-            <li class="Text fragment">In its own thread</li>
-            <li class="Text fragment">No need DOM elements</li>
+            <li class="Text" data-translate>Draw a canvas in background images</li>
+            <li class="Text fragment" data-translate>Automatically redrawn, resized</li>
+            <li class="Text fragment" data-translate>In its own thread</li>
+            <li class="Text fragment" data-translate>No need DOM elements</li>
           </ul>
         </section>
 
@@ -983,9 +979,9 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-                <span class="Tag Tag--creative">Creative</span>
+                <span class="Tag Tag--creative" data-translate>Creative</span>
             </span>
-            Artistic drawing
+            <span data-translate>Artistic drawing</span>
           </p>
           <iframe src="https://css-houdini.rocks/double-rainbow/?embed" frameborder="0"></iframe>
         </section>
@@ -993,10 +989,11 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-                <span class="Tag Tag--creative">Creative</span>
-                <span class="Tag">Backgrounds</span>
+                <span class="Tag Tag--creative" data-translate>Creative</span>
+                <span class="Tag" data-translate>Backgrounds</span>
             </span>
-            Corners gradient</p>
+            <span data-translate>Corners gradient</span>
+          </p>
           <iframe src="https://css-houdini.rocks/corners-gradient/?embed" frameborder="0"></iframe>
         </section>
 
@@ -1004,7 +1001,7 @@ CSS.<mark>registerProperty</mark>({
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
                 <span class="Tag Tag--polyfill">Polyfill</span>
-                <span class="Tag">Backgrounds</span>
+                <span class="Tag" data-translate>Backgrounds</span>
             </span>
             corner-shape
           </p>
@@ -1015,8 +1012,8 @@ CSS.<mark>registerProperty</mark>({
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
               <span class="Tag Tag--polyfill">Polyfill</span>
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Backgrounds</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Backgrounds</span>
             </span>
             background-filter / opacity / rotate
           </p>
@@ -1026,10 +1023,10 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Backgrounds</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Backgrounds</span>
             </span>
-            Highlighter marker
+            <span data-translate>Highlighter marker</span>
           </p>
           <iframe src="https://css-houdini.rocks/highlighter-marker-annotations/?embed" frameborder="0"></iframe>
         </section>
@@ -1037,10 +1034,10 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Borders</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Borders</span>
             </span>
-            Tooltip arrow
+            <span data-translate>Tooltip arrow</span>
           </p>
           <iframe src="https://css-houdini.rocks/tooltip/?embed" frameborder="0"></iframe>
         </section>
@@ -1048,26 +1045,26 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Borders</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Borders</span>
             </span>
-            Rough borders
+            <span data-translate>Rough borders</span>
           </p>
           <iframe src="https://css-houdini.rocks/rough-boxes/?embed" frameborder="0"></iframe>
         </section>
 
         <section>
-          <p class="Title">Reusable and trashable worklet ?</p>
-          <p class="Text fragment">Slightly bypassed using seed random numbers</p>
+          <p class="Title" data-translate>Reusable and trashable worklet?</p>
+          <p class="Text fragment" data-translate>Slightly bypassed using seed random numbers</p>
         </section>
 
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Masks</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Masks</span>
             </span>
-            Random bubbles
+            <span data-translate>Random bubbles</span>
           </p>
           <iframe src="https://css-houdini.rocks/random-bubbles-mask/?embed" frameborder="0"></iframe>
         </section>
@@ -1075,10 +1072,10 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
-              <span class="Tag">Masks</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
+              <span class="Tag" data-translate>Masks</span>
             </span>
-            Irregular grid
+            <span data-translate>Irregular grid</span>
           </p>
           <iframe src="https://css-houdini.rocks/irregular-grid/?embed" frameborder="0"></iframe>
         </section>
@@ -1086,7 +1083,7 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-              <span class="Tag Tag--creative">Creative</span>
+              <span class="Tag Tag--creative" data-translate>Creative</span>
               <span class="Tag">🤯</span>
             </span>
             JS-in-CSS
@@ -1150,11 +1147,11 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text">Build its own layout</li>
-            <li class="Text fragment">À la Flexbox / Grid</li>
-            <li class="Text fragment">Only for the children</li>
-            <li class="Text fragment">On its own thread*</li>
-            <li class="Text fragment">Pretty complex</li>
+            <li class="Text" data-translate>Build its own layout</li>
+            <li class="Text fragment" data-translate>À la Flexbox / Grid</li>
+            <li class="Text fragment" data-translate>Only for the children</li>
+            <li class="Text fragment" data-translate>On its own thread*</li>
+            <li class="Text fragment" data-translate>Pretty complex</li>
           </ul>
         </section>
 
@@ -1345,7 +1342,7 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-                <span class="Tag Tag--creative">Creative</span>
+                <span class="Tag Tag--creative" data-translate>Creative</span>
             </span>
             Masonry
           </p>
@@ -1365,7 +1362,7 @@ CSS.<mark>registerProperty</mark>({
         <section class="u-justifyContent-start">
           <p class="Title Text--overlay fragment fade-out">
             <span class="Tags">
-                <span class="Tag Tag--creative">Creative</span>
+                <span class="Tag Tag--creative" data-translate>Creative</span>
             </span>
             SVG Path
           </p>
@@ -1428,11 +1425,11 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text">Animations on their own thread</li>
-            <li class="Text fragment">Based on Web Animations API</li>
-            <li class="Text fragment">Timeline based on time or scroll</li>
-            <li class="Text fragment">Only for performance</li>
-            <li class="Text fragment">Only JavaScript</li>
+            <li class="Text" data-translate>Animations on their own thread</li>
+            <li class="Text fragment" data-translate>Based on Web Animations API</li>
+            <li class="Text fragment" data-translate>Timeline based on time or scroll</li>
+            <li class="Text fragment" data-translate>Only for performance</li>
+            <li class="Text fragment" data-translate>Only JavaScript</li>
           </ul>
         </section>
 
@@ -1697,15 +1694,15 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text">Even simpler? With CSS?</li>
+            <li class="Text" data-translate>Even simpler? With CSS?</li>
             <li class="Text fragment"><code>animation-timeline: scroll()</code></li>
-            <li class="Text fragment"><a href="https://wicg.github.io/scroll-animations/">Scroll-linked Animations</a> (Not Houdini)</li>
+            <li class="Text fragment"><a href="https://wicg.github.io/scroll-animations/">Scroll-linked Animations</a> <span data-translate>(Not Houdini)</span></li>
           </ul>
         </section>
 
         <section class="Part" data-transition="after-none">
           <p class="Title">CSS Parser, Render Tree, Font Metrics</p>
-          <div class="Text">The future?</div>
+          <div class="Text" data-translate>The future?</div>
         </section>
 
         <section class="Part" data-transition="before-none">
@@ -1759,15 +1756,15 @@ CSS.<mark>registerProperty</mark>({
 
         <section>
           <ul>
-            <li class="Text">Nothing really exists</li>
-            <li class="Text fragment">It’s up to you!</li>
+            <li class="Text" data-translate>Nothing really exists</li>
+            <li class="Text fragment" data-translate>It’s up to you!</li>
             <li class="Text fragment"><a href="https://github.com/w3c/css-houdini-drafts">W3C/css-houdini-drafts</a></li>
           </ul>
         </section>
 
         <section class="Jumbo">
-          <p class="Title">Sky’s the limit</p>
-          <p class="Text">Wait & See</p>
+          <p class="Title" data-translate>Sky’s the limit</p>
+          <p class="Text" data-translate>Wait & See</p>
         </section>
 
         <section class="Part">
@@ -1775,60 +1772,60 @@ CSS.<mark>registerProperty</mark>({
         </section>
 
         <section>
-          <h2 class="Title">New graphical effects?</h2>
+          <h2 class="Title" data-translate>New graphical effects?</h2>
           <ul>
-            <li class="Text fragment Yep">Increase creativity</li>
-            <li class="Text fragment Nope">Everything is JavaScript</li>
-            <li class="Text fragment Nope">Pretty complex to use</li>
+            <li class="Text fragment Yep" data-translate>Increase creativity</li>
+            <li class="Text fragment Nope" data-translate>Everything is JavaScript</li>
+            <li class="Text fragment Nope" data-translate>Pretty complex to use</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="Title">Performance?</h2>
+          <h2 class="Title" data-translate>Performance?</h2>
           <ul>
-            <li class="Text fragment Yep">Perf boost, mainly for animations</li>
-            <li class="Text fragment Nope">Not always true (today)</li>
+            <li class="Text fragment Yep" data-translate>Perf boost, mainly for animations</li>
+            <li class="Text fragment Nope" data-translate>Not always true (today)</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="Title">Standardization?</h2>
+          <h2 class="Title" data-translate>Standardization?</h2>
           <ul>
-            <li class="Text fragment Yep">No need to wait for standards</li>
-            <li class="Text fragment Nope">Everything have to be build from the ground (prediction: heterogeneous ecosytem)</li>
-            <li class="Text fragment Yep">Standards can evoluate</li>
+            <li class="Text fragment Yep" data-translate>No need to wait for standards</li>
+            <li class="Text fragment Nope" data-translate>Everything have to be build from the ground (prediction: heterogeneous ecosytem)</li>
+            <li class="Text fragment Yep" data-translate>Standards can evoluate</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="Title">Polyfill?</h2>
+          <h2 class="Title" data-translate>Polyfill?</h2>
           <ul>
-            <li class="Text fragment Yep">More performant, more easily</li>
-            <li class="Text fragment Nope">Quickly limited (today?)</li>
-            <li class="Text fragment Nope">Many impossible effects: <code>element()</code>, <code>backdrop-filter</code>, CSS Shaders 😍, etc.</li>
+            <li class="Text fragment Yep" data-translate>More performant, more easily</li>
+            <li class="Text fragment Nope" data-translate>Quickly limited (today?)</li>
+            <li class="Text fragment Nope"><span data-translate>Many impossible effects:</span> <code>element()</code>, <code>backdrop-filter</code>, CSS Shaders 😍, etc.</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="Title">Browser engine innovation?</h2>
+          <h2 class="Title" data-translate>Browser engine innovation?</h2>
           <ul>
-            <li class="Text fragment Yep">Performance optimizations by the browser</li>
-            <li class="Text fragment Nope">Houdini based on an actual rendering pipeline</li>
-            <li class="Text fragment Nope">Firefox and its new engine WebRender?</li>
+            <li class="Text fragment Yep" data-translate>Performance optimizations by the browser</li>
+            <li class="Text fragment Nope" data-translate>Houdini based on an actual rendering pipeline</li>
+            <li class="Text fragment Nope" data-translate>Firefox and its new engine WebRender?</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="Title">Security?</h2>
+          <h2 class="Title" data-translate>Security?</h2>
           <ul>
-            <li class="Text fragment Nope">ex: <code>paint()</code> not on links</li>
-            <li class="Text fragment Nope">Only HTTPS</li>
-            <li class="Text fragment Nope">Similar fate than CSS Shaders?</li>
+            <li class="Text fragment Nope">ex: <code>paint()</code> <span data-translate>not on links</span></li>
+            <li class="Text fragment Nope" data-translate>Only HTTPS</li>
+            <li class="Text fragment Nope" data-translate>Similar fate than CSS Shaders?</li>
           </ul>
         </section>
 
         <section class="Showcase">
-          <h1>Thanks!</h1>
+          <h1 data-translate>Thanks!</h1>
           <p class="Text"><a href="https://slides.iamvdo.me/waq19">https://slides.iamvdo.me/waq19</a></p>
           <p class="Text"><a href="https://css-houdini.rocks">https://css-houdini.rocks</a></p>
           <p>Vincent De Oliveira &middot; <a href="http://twitter.com/iamvdo">@iamvdo</a> &middot; <a href="http://iamvdo.me">iamvdo.me</a></p>
@@ -1839,7 +1836,7 @@ CSS.<mark>registerProperty</mark>({
 
     <div class="info-overlay" id="info-twitter">
       <a href="https://twitter.com/iamvdo">@iamvdo</a>
-      <a href="https://slides.iamvdo.me/waq19/fr" id="info-slides">Version FR</a>
+      <button id="button-i18n" data-translate>Voir version FR</button>
     </div>
 
     <script src="lib/js/head.min.js"></script>
@@ -1869,7 +1866,8 @@ CSS.<mark>registerProperty</mark>({
           { src: 'plugin/nav/nav.js', async: true},
           { src: 'plugin/zoom-js/zoom.js', async: true },
           { src: 'socket.io/socket.io.js', async: true },
-          { src: 'plugin/notes-server/client.js', async: true }
+          { src: 'plugin/notes-server/client.js', async: true },
+          { src: 'plugin/i18n/i18n.js', async: true }
         ]
       });
     </script>

@@ -723,13 +723,6 @@ $heading4Size: 1rem;
 .info-overlay a:focus {
   text-decoration: underline;
 }
-#info-slides {
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
 
 
 /*********************************************
@@ -851,6 +844,7 @@ $heading4Size: 1rem;
 // Plugin CSS ------------------------------
 @import "../../plugin/prismjs/prism.css";
 @import "../../plugin/nav/nav.css";
+@import "../../plugin/i18n/i18n.css";
 // ---------------------------------------------
 
 // Theme template ------------------------------
